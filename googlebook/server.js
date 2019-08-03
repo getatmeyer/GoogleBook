@@ -12,13 +12,13 @@ app.use(express.json());
 // Serve heroku
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
+  
+  // Connect Mongo DB
+  mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks");
 }
 
 // Define API routes here
 app.use(routes);
-
-// Connect Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooks");
 // Send every other request to the React app
 // Define any API routes before this runs
 //let defaultRoute = path.join(__dirname, "./clent/build/index.html");

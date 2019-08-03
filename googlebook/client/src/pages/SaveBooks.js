@@ -1,52 +1,55 @@
 import React, { Component } from "react";
 import API from "../utils/API";
-import Jumbotron from "../components/Jumbotron";
-import { Container, Row, Col } from "../components/Grid";
 // import SavedView from "../compontents/SavedView";
-// import SavedResults from "../compontents/SavedResults";
 
 class SaveBook extends Component {
     state = {
-        books: []
+        savedBooks: []
     };
-    
+
     //when this component mounts, grab all books that were save to the database 
     componentDidMount() {
-        API.getSavedBooks()
+
+        API.getBooks()
+            .then(res => {
+                this.setState({ savedBooks: res.data })
+                console.log("GetBooks", res.data);
+            })
+
+            .catch(err => console.log(err))
     }
 
-    getSavedBooks = () => {
-        API.getSavedBooks()
-        .then(res =>
-            this.setState({
-                books: res.data
-                })
-        )
-        .catch(err => console.log(err));
-    
-    };
-        
+
+
+    // getSavedBooks = () => {
+    //     API.getSavedBooks()
+    //     .then(res =>
+    //         this.setState({
+    //             books: res.data
+    //             })
+    //     )
+    //     .catch(err => console.log(err));
+
+    // };
+
 
     handleDeleteButton = id => {
         API.deleteBook(id)
-        .then(res => this.getSavedBooks());
-           
+            .then(res => this.componentDidMount())
+            .catch(err => console.log(err))
+
+
     };
 
     render() {
         return (
-                // <Container fluid className="container">
-                    // <Jumbotron />
-                    // <Container>
-                    <div>
-                        <Row>
-                            <div className="card"
-                            {this.state.books.map(book => (
-                              <CardSaved
-                        <SavedResults savedBooks={this.state.savedBooks} handleDeleteButton={this.handleDeleteButton} />
-                        </div>
-            )
-        }
+
+            <div>
+
+                {/* <SavedView savedBooks={this.state.savedBooks} handleDeleteButton={this.handleDeleteButton} /> */}
+            </div>
+        )
     }
-    export default SaveBook;
+}
+export default SaveBook;
 
